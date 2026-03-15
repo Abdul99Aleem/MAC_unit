@@ -7,10 +7,12 @@ XVLOG  := $(VIVADO_BIN)/xvlog
 XELAB  := $(VIVADO_BIN)/xelab
 XSIM   := $(VIVADO_BIN)/xsim
 
-TOP    := mac_unit_tb
-SRCS   := mac_unit.v mac_unit_tb.v
+TOP    := systolic_array_4x4_tb
+SRCS   := mac_unit.v systolic_array_4x4.v systolic_array_4x4_tb.v
+MAC_TOP := mac_unit_tb
+MAC_SRCS := mac_unit.v mac_unit_tb.v
 
-.PHONY: all compile simulate clean
+.PHONY: all compile simulate simulate_mac clean
 
 all: simulate
 
@@ -20,6 +22,11 @@ compile:
 simulate: compile
 	$(XELAB) -debug typical $(TOP) -s $(TOP)_sim
 	$(XSIM)  $(TOP)_sim --runall
+
+simulate_mac:
+	$(XVLOG) --sv $(MAC_SRCS)
+	$(XELAB) -debug typical $(MAC_TOP) -s $(MAC_TOP)_sim
+	$(XSIM)  $(MAC_TOP)_sim --runall
 
 clean:
 	rm -rf xvlog.log xelab.log xsim.log *.jou *.pb \

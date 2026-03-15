@@ -7,6 +7,7 @@ A high-performance Verilog implementation of a Multiply-Accumulate unit, designe
 2. **Simulate**: `make simulate`
 
 ## Architecture
+### MAC Unit
 ```mermaid
 graph LR
     A[a: 8-bit] --> MULT[*]
@@ -17,9 +18,17 @@ graph LR
     REG --> ACC_OUT[acc_out: 32-bit]
 ```
 
+### 4x4 Systolic Array
+The systolic array tiles 16 MAC units to perform matrix multiplication. It features:
+- **Internal Skewing**: Managed input timing to simplify external control.
+- **Wavefront Propagation**: Data flows "systolically" across the grid every clock cycle.
+- **DSP Mapping**: Optimized for Xilinx DSP48 slices (16 total).
+
 ## Repository Structure
-- `mac_unit.v`: Core RTL implementation.
-- `mac_unit_tb.v`: Self-checking testbench.
+- `mac_unit.v`: Core Processing Element (PE).
+- `systolic_array_4x4.v`: 4x4 grid with internal propagation and skewing.
+- `mac_unit_tb.v`: Unit testbench for a single PE.
+- `systolic_array_tb.v`: System testbench for 4x4 matrix multiplication.
 - `Makefile`: Automation for Vivado 2024.2 CLI flow.
 - `docs/`:
     - [Vivado Guide](docs/VIVADO_GUIDE.md): Toolchain setup and debugging.
