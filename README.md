@@ -27,6 +27,18 @@ The systolic array tiles 16 MAC units to perform matrix multiplication. It featu
 - **AXI4-Lite Interface**: Memory-mapped control for easy integration with ARM/Soft processors.
 - **DSP Mapping**: Optimized for Xilinx DSP48 slices (16 total).
 
+## AXI4-Lite Register Map
+The accelerator is controlled via memory-mapped registers. All registers are 32-bit wide.
+
+| Offset | Name | Type | Description |
+| :--- | :--- | :--- | :--- |
+| **0x00 - 0x0C** | `ADDR_A_IN` | Write | Input Matrix A (Rows 0-3). Data is in `[7:0]`. |
+| **0x10 - 0x1C** | `ADDR_B_IN` | Write | Input Matrix B (Cols 0-3). Data is in `[7:0]`. |
+| **0x20 - 0x5C** | `ADDR_ACC` | Read | Output Accumulators (PE 0,0 to PE 3,3). 16 total. |
+| **0xA0** | `CONTROL` | W/R | bit[0]: Enable (Pulse), bit[1]: Done (Always 1). |
+
+*Note: The Enable bit (0xA0) is a self-clearing strobe. Writing a '1' triggers exactly one clock cycle of computation in the array.*
+
 ## Repository Structure
 - `top_level.v`: AXI4-Lite wrapper for the systolic array.
 - `mac_unit.v`: Core Processing Element (PE).

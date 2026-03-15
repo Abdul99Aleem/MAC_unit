@@ -57,7 +57,15 @@ The `top_level` module wraps the systolic array in an AXI4-Lite slave interface,
 | 0x18   | B_IN[2]   | RW   | Col 2 input (bottom 8 bits)       |
 | 0x1C   | B_IN[3]   | RW   | Col 3 input (bottom 8 bits)       |
 | 0x20-5C| ACC[0-15] | RO   | 32-bit PE results (16 registers)  |
-| 0xA0   | CONTROL   | RW   | Bit 0: Enable, Bit 1: Done (RO)   |
+| 0xA0   | CONTROL   | RW   | Bit 0: Enable (Self-clearing), Bit 1: Done (RO) |
+
+### Control Logic
+The `CONTROL` register at `0xA0` features a self-clearing `Enable` bit. When a `1` is written to bit 0, the internal `control_reg_en` signal pulses high for exactly one clock cycle. This triggers the systolic array to:
+1. Shift new row/column inputs into the edge PEs.
+2. Propagate internal data through the pipeline registers.
+3. Perform one Multiply-Accumulate operation in every PE.
+
+This design eliminates the need for software to manually clear the bit, ensuring precise control over the systolic cycles.
 
 ### SoC Integration
 In a typical Zynq SoC system, this module is instantiated as a "Custom IP":

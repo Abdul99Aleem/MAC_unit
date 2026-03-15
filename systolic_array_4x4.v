@@ -7,6 +7,7 @@
 module systolic_array_4x4 (
     input  wire        clk,
     input  wire        rst_n,
+    input  wire        en,       // Added enable
     input  wire [31:0] a_in,    // 4 rows * 8 bits
     input  wire [31:0] b_in,    // 4 cols * 8 bits
     output wire [511:0] acc_out // 16 PEs * 32 bits
@@ -55,7 +56,7 @@ module systolic_array_4x4 (
             b_col1_delay0 <= 8'sd0; b_col1_delay1 <= 8'sd0;
             b_col2_delay0 <= 8'sd0; b_col2_delay1 <= 8'sd0; b_col2_delay2 <= 8'sd0;
             b_col3_delay0 <= 8'sd0; b_col3_delay1 <= 8'sd0; b_col3_delay2 <= 8'sd0; b_col3_delay3 <= 8'sd0;
-        end else begin
+        end else if (en) begin
             // Row Skewing
             a_row0_delay0 <= a_in[7:0];
 
@@ -121,7 +122,7 @@ module systolic_array_4x4 (
                     b_reg[r][c] <= 8'sd0;
                 end
             end
-        end else begin
+        end else if (en) begin
             for (r = 0; r < 4; r = r + 1) begin
                 for (c = 0; c < 4; c = c + 1) begin
                     a_reg[r][c] <= a_pipe[r][c];
@@ -156,6 +157,7 @@ module systolic_array_4x4 (
                 mac_unit pe (
                     .clk(clk),
                     .rst_n(rst_n),
+                    .en(en),
                     .a(a_pipe[gi][gj]),
                     .b(b_pipe[gi][gj]),
                     .acc_in(pe_acc_out[gi][gj]), // Feedback

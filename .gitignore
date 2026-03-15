@@ -1,3 +1,9 @@
+# Python artifacts
+venv/
+__pycache__/
+data/
+*.pt
+
 # Vivado build artifacts
 xsim.dir/
 .Xil/

@@ -46,9 +46,9 @@ module top_level # (
     localparam ADDR_CONTROL    = 8'hA0; // 0xA0
 
     // Internal Registers
-    reg [7:0] a_regs [0:3];
-    reg [7:0] b_regs [0:3];
-    reg       control_reg_en;
+    reg signed [7:0] a_regs [0:3];
+    reg signed [7:0] b_regs [0:3];
+    reg              control_reg_en;
 
     // AXI signals
     reg [C_S_AXI_ADDR_WIDTH-1:0] axi_awaddr;
@@ -101,17 +101,20 @@ module top_level # (
             // Write Data
             if (axi_awready && s_axi_awvalid && axi_wready && s_axi_wvalid) begin
                 case (axi_awaddr[7:0])
-                    8'h00: a_regs[0] <= s_axi_wdata[7:0];
-                    8'h04: a_regs[1] <= s_axi_wdata[7:0];
-                    8'h08: a_regs[2] <= s_axi_wdata[7:0];
-                    8'h0C: a_regs[3] <= s_axi_wdata[7:0];
-                    8'h10: b_regs[0] <= s_axi_wdata[7:0];
-                    8'h14: b_regs[1] <= s_axi_wdata[7:0];
-                    8'h18: b_regs[2] <= s_axi_wdata[7:0];
-                    8'h1C: b_regs[3] <= s_axi_wdata[7:0];
+                    8'h00: a_regs[0] <= $signed(s_axi_wdata[7:0]);
+                    8'h04: a_regs[1] <= $signed(s_axi_wdata[7:0]);
+                    8'h08: a_regs[2] <= $signed(s_axi_wdata[7:0]);
+                    8'h0C: a_regs[3] <= $signed(s_axi_wdata[7:0]);
+                    8'h10: b_regs[0] <= $signed(s_axi_wdata[7:0]);
+                    8'h14: b_regs[1] <= $signed(s_axi_wdata[7:0]);
+                    8'h18: b_regs[2] <= $signed(s_axi_wdata[7:0]);
+                    8'h1C: b_regs[3] <= $signed(s_axi_wdata[7:0]);
                     8'hA0: control_reg_en <= s_axi_wdata[0];
                     default: ;
                 endcase
+            end else begin
+                // Self-clearing pulse for enable
+                control_reg_en <= 1'b0;
             end
 
             // Response
@@ -177,7 +180,8 @@ module top_level # (
 
     systolic_array_4x4 sa_inst (
         .clk(s_axi_aclk),
-        .rst_n(s_axi_aresetn && control_reg_en), // Only run when enabled
+        .rst_n(s_axi_aresetn),
+        .en(control_reg_en),
         .a_in(sa_a_in),
         .b_in(sa_b_in),
         .acc_out(sa_acc_out)

@@ -7,6 +7,7 @@
 module mac_unit (
     input  wire        clk,
     input  wire        rst_n,
+    input  wire        en,
     input  wire signed [7:0]  a,
     input  wire signed [7:0]  b,
     input  wire signed [31:0] acc_in,
@@ -17,7 +18,7 @@ module mac_unit (
     always @(posedge clk) begin
         if (!rst_n)
             acc_out <= 32'sd0;
-        else
+        else if (en)
             acc_out <= acc_in + (a * b);
     end
 
