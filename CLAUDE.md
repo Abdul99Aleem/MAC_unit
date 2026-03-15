@@ -9,9 +9,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build & Synthesis Commands
 
 ```bash
-make compile       # xvlog: parse + elaborate
-make simulate      # compile + xelab + xsim (full run)
-make clean         # remove all Vivado-generated artifacts
+make compile           # xvlog: parse + elaborate
+make simulate          # compile + xelab + xsim (top_level_tb)
+make simulate_system   # Run full MNIST verification (system_verification_tb)
+make clean             # remove all Vivado-generated artifacts
 vivado -mode batch -source create_project.tcl  # Automated Vivado project creation and synthesis
 ```
 

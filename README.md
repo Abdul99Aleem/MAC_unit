@@ -39,6 +39,18 @@ The accelerator is controlled via memory-mapped registers. All registers are 32-
 
 *Note: The Enable bit (0xA0) is a self-clearing strobe. Writing a '1' triggers exactly one clock cycle of computation in the array.*
 
+## Benchmarking
+The `inference_benchmark.py` script compares the numerical accuracy of the 8-bit quantized hardware simulation (PL) against a floating-point software baseline (PS).
+
+### Run Benchmark:
+```bash
+python inference_benchmark.py
+```
+
+### Key Metrics:
+- **Numerical Parity**: The script verifies that the INT8 prediction matches the Float32 prediction for MNIST test samples.
+- **Confusion Matrix**: Generates a 10x10 ASCII confusion matrix for a batch of test images to visualize model performance after quantization.
+
 ## Repository Structure
 - `top_level.v`: AXI4-Lite wrapper for the systolic array.
 - `mac_unit.v`: Core Processing Element (PE).
