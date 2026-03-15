@@ -42,5 +42,19 @@ graph TD
     %% ... rest of grid ...
 ```
 
+## AXI4-Lite Integration
+The `top_level` module wraps the systolic array in an AXI4-Lite slave interface, enabling memory-mapped access to inputs, control registers, and results.
+
+### Register Map
+| Offset | Name      | Type | Description                       |
+|--------|-----------|------|-----------------------------------|
+| 0x00   | A_IN[0-3] | RW   | 8-bit row inputs (4 registers)    |
+| 0x10   | B_IN[0-3] | RW   | 8-bit column inputs (4 registers) |
+| 0x20   | ACC[0-15] | RO   | 32-bit PE results (16 registers)  |
+| 0xA0   | CONTROL   | RW   | Bit 0: Enable, Bit 1: Done (RO)   |
+
+### AXI Interface
+The wrapper implements the standard 5-channel AXI4-Lite handshake logic (Write Address, Write Data, Write Response, Read Address, Read Data). It acts as a bridge between the processor's memory bus and the systolic array's streaming ports.
+
 ## Resource Utilization
 This design is optimized for Xilinx Zynq FPGAs. Each `mac_unit` infers a single **DSP48** slice, totaling 16 DSPs for the 4x4 array.
