@@ -1,0 +1,8 @@
+# Vivado build artifacts
+xsim.dir/
+.Xil/
+*.log
+*.jou
+*.pb
+*.wdb
+webtalk*
