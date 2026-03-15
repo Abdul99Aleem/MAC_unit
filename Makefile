@@ -7,8 +7,8 @@ XVLOG  := $(VIVADO_BIN)/xvlog
 XELAB  := $(VIVADO_BIN)/xelab
 XSIM   := $(VIVADO_BIN)/xsim
 
-TOP    := systolic_array_4x4_tb
-SRCS   := mac_unit.v systolic_array_4x4.v systolic_array_4x4_tb.v
+TOP    := top_level_tb
+SRCS   := mac_unit.v systolic_array_4x4.v top_level.v top_level_tb.v
 MAC_TOP := mac_unit_tb
 MAC_SRCS := mac_unit.v mac_unit_tb.v
 
