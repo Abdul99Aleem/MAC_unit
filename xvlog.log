@@ -1,0 +1,4 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/aleem/Desktop/MAC_unit/mac_unit.v" into library work
+INFO: [VRFC 10-311] analyzing module mac_unit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/aleem/Desktop/MAC_unit/mac_unit_tb.v" into library work
+INFO: [VRFC 10-311] analyzing module mac_unit_tb

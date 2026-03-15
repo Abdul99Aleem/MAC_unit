@@ -1,0 +1,1 @@
+-debug "typical" "mac_unit_tb" -s "mac_unit_tb_sim" 

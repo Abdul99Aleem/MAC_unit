@@ -1,0 +1,54 @@
+#-----------------------------------------------------------
+# xsim v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Sun Mar 15 17:04:04 2026
+# Process ID         : 58089
+# Current directory  : /home/aleem/Desktop/MAC_unit
+# Command line       : xsim -source {xsim.dir/mac_unit_tb_sim/xsim_script.tcl}
+# Log file           : /home/aleem/Desktop/MAC_unit/xsim.log
+# Journal file       : /home/aleem/Desktop/MAC_unit/xsim.jou
+# Running On         : aleem-Latitude-5480
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.3 LTS
+# Processor Detail   : Intel(R) Core(TM) i5-7300U CPU @ 2.60GHz
+# CPU Frequency      : 3499.986 MHz
+# CPU Physical cores : 2
+# CPU Logical cores  : 4
+# Host memory        : 8200 MB
+# Swap memory        : 4294 MB
+# Total Virtual      : 12495 MB
+# Available Virtual  : 6465 MB
+#-----------------------------------------------------------
+start_gui
+source xsim.dir/mac_unit_tb_sim/xsim_script.tcl
+# set_param project.enableReportConfiguration 0
+# load_feature core
+# current_fileset
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/aleem/Vivado/2024.2/data/ip'.
+# xsim {mac_unit_tb_sim} -autoloadwcfg -tclbatch {wave.tcl}
+Time resolution is 1 ps
+source wave.tcl
+## add_wave /mac_unit_tb/clk
+## add_wave /mac_unit_tb/rst_n
+## add_wave /mac_unit_tb/a
+## add_wave /mac_unit_tb/b
+## add_wave /mac_unit_tb/acc_in
+## add_wave /mac_unit_tb/acc_out
+## run -all
+PASS | pos*pos         | expected=30, got=30
+PASS | neg*pos         | expected=-28, got=-28
+PASS | neg*neg         | expected=24, got=24
+PASS | zero*anything   | expected=100, got=100
+PASS | accumulation    | expected=27, got=27
+------------------------------------------
+Results: 5 PASSED, 0 FAILED
+------------------------------------------
+$finish called at time : 86 ns : File "/home/aleem/Desktop/MAC_unit/mac_unit_tb.v" Line 118
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+exit
+INFO: [Common 17-206] Exiting xsim at Sun Mar 15 17:05:18 2026...
