@@ -5,6 +5,8 @@ A high-performance Verilog implementation of a Multiply-Accumulate unit, designe
 ## Quick Start
 1. **Compile**: `make compile`
 2. **Simulate**: `make simulate`
+3. **Automated Vivado Build**: `vivado -mode batch -source create_project.tcl`
+   - This creates a Vivado project, runs synthesis, and generates `utilization.txt` and `timing.txt`.
 
 ## Architecture
 ### MAC Unit
@@ -32,7 +34,10 @@ The systolic array tiles 16 MAC units to perform matrix multiplication. It featu
 - `top_level_tb.v`: AXI-level testbench.
 - `mac_unit_tb.v`: Unit testbench for a single PE.
 - `systolic_array_4x4_tb.v`: System testbench for 4x4 matrix multiplication.
-- `Makefile`: Automation for Vivado 2024.2 CLI flow.
+- `create_project.tcl`: Vivado automation script.
+- `constraints.xdc`: Timing constraints (100MHz clock).
+- `Makefile`: Simulation automation for Vivado 2024.2 CLI flow.
 - `docs/`:
     - [Vivado Guide](docs/VIVADO_GUIDE.md): Toolchain setup and debugging.
     - [Architecture & Theory](docs/ARCHITECTURE.md): Mathematical and hardware details.
+    - [Interview Prep](docs/INTERVIEW_PREP.md): Design trade-offs and concepts.

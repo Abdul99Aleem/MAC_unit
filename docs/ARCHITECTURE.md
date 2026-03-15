@@ -48,13 +48,23 @@ The `top_level` module wraps the systolic array in an AXI4-Lite slave interface,
 ### Register Map
 | Offset | Name      | Type | Description                       |
 |--------|-----------|------|-----------------------------------|
-| 0x00   | A_IN[0-3] | RW   | 8-bit row inputs (4 registers)    |
-| 0x10   | B_IN[0-3] | RW   | 8-bit column inputs (4 registers) |
-| 0x20   | ACC[0-15] | RO   | 32-bit PE results (16 registers)  |
+| 0x00   | A_IN[0]   | RW   | Row 0 input (bottom 8 bits)       |
+| 0x04   | A_IN[1]   | RW   | Row 1 input (bottom 8 bits)       |
+| 0x08   | A_IN[2]   | RW   | Row 2 input (bottom 8 bits)       |
+| 0x0C   | A_IN[3]   | RW   | Row 3 input (bottom 8 bits)       |
+| 0x10   | B_IN[0]   | RW   | Col 0 input (bottom 8 bits)       |
+| 0x14   | B_IN[1]   | RW   | Col 1 input (bottom 8 bits)       |
+| 0x18   | B_IN[2]   | RW   | Col 2 input (bottom 8 bits)       |
+| 0x1C   | B_IN[3]   | RW   | Col 3 input (bottom 8 bits)       |
+| 0x20-5C| ACC[0-15] | RO   | 32-bit PE results (16 registers)  |
 | 0xA0   | CONTROL   | RW   | Bit 0: Enable, Bit 1: Done (RO)   |
 
-### AXI Interface
-The wrapper implements the standard 5-channel AXI4-Lite handshake logic (Write Address, Write Data, Write Response, Read Address, Read Data). It acts as a bridge between the processor's memory bus and the systolic array's streaming ports.
+### SoC Integration
+In a typical Zynq SoC system, this module is instantiated as a "Custom IP":
+1. **Connectivity**: The `top_level` connects to the PS (Processing System) via the **M_AXI_GP0** port.
+2. **Addressing**: The module is mapped into the PS memory space (e.g., starting at `0x43C0_0000`).
+3. **Interrupts**: While not implemented here, a common extension is to add an interrupt line that triggers when the "Done" bit is set.
+4. **DMA**: For larger matrices, AXI4-Lite is replaced by AXI-Stream and a DMA engine to feed data at full clock speed.
 
 ## Resource Utilization
 This design is optimized for Xilinx Zynq FPGAs. Each `mac_unit` infers a single **DSP48** slice, totaling 16 DSPs for the 4x4 array.

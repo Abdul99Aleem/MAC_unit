@@ -13,6 +13,7 @@ module mac_unit (
     output reg  signed [31:0] acc_out
 );
 
+    (* use_dsp = "yes" *)
     always @(posedge clk) begin
         if (!rst_n)
             acc_out <= 32'sd0;
