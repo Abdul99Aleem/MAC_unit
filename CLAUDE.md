@@ -11,14 +11,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 make compile           # xvlog: parse + elaborate
 make simulate          # compile + xelab + xsim (top_level_tb)
-make simulate_system   # Run full MNIST verification (system_verification_tb)
 make clean             # remove all Vivado-generated artifacts
 vivado -mode batch -source create_project.tcl  # Automated Vivado project creation and synthesis
+source venv/bin/activate && python3 inference_benchmark.py  # Run MNIST numerical parity benchmark
 ```
 
 ## Architecture
 
 - **`top_level.v`** — AXI4-Lite wrapper for the systolic array. Register map: Inputs (0x00-0x1C), Results (0x20-0x5C), Control/Status (0xA0).
+  - **Enable Bit (0xA0)**: Self-clearing strobe. Must be pulsed multiple times to propagate data through the pipeline.
 - **`mac_unit.v`** — single pipeline stage: `acc_out <= acc_in + (a * b)` on rising edge with synchronous active-low reset. Synthesizes to a DSP48 slice on Zynq (use `(* use_dsp = "yes" *)` attribute).
 - **`systolic_array_4x4.v`** — 4x4 grid with internal propagation and skewing logic.
 - **`top_level_tb.v`** — AXI-level testbench for verifying the full SoC integration.
