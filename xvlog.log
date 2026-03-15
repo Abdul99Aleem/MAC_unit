@@ -1,6 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/aleem/Desktop/MAC_unit/mac_unit.v" into library work
-INFO: [VRFC 10-311] analyzing module mac_unit
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/aleem/Desktop/MAC_unit/systolic_array_4x4.v" into library work
-INFO: [VRFC 10-311] analyzing module systolic_array_4x4
-INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/home/aleem/Desktop/MAC_unit/systolic_array_4x4_tb.v" into library work
-INFO: [VRFC 10-311] analyzing module systolic_array_4x4_tb

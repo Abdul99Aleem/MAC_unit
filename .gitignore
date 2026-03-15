@@ -6,3 +6,9 @@ xsim.dir/
 *.pb
 *.wdb
 webtalk*
+vivado_project/
+xsim.dir/
+usage_statistics_webtalk.*
+xvlog.*
+xelab.*
+xsim.*
