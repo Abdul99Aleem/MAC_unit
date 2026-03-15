@@ -144,11 +144,14 @@ module top_level_tb;
             axi_write(32'h10 + (i*4), (i + 1) * 10); // 10, 20, 30, 40
         end
 
-        // 3. Write to Control/Status (0xA0) - Enable
-        axi_write(32'hA0, 32'h1);
+        // 3. Pulse Enable multiple times to propagate data through the systolic pipeline
+        // For a 4x4 array, we need ~11-15 cycles to see full results
+        for (i = 0; i < 15; i = i + 1) begin
+            axi_write(32'hA0, 32'h1);
+        end
 
-        // 4. Wait for some cycles for systolic computation to progress
-        repeat(20) @(posedge s_axi_aclk);
+        // 4. Wait for any remaining internal pipeline stages
+        repeat(5) @(posedge s_axi_aclk);
 
         // 5. Read back acc_out[0..15] (0x20..0x5C)
         for (i = 0; i < 16; i = i + 1) begin
