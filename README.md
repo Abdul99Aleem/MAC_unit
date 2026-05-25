@@ -59,7 +59,7 @@ The design was synthesized for a Xilinx Zynq-7000 (`xc7z020clg400-1`) at a targe
 | **Registers** | 953 | 106400 | 0.90% |
 | **DSPs** | 0* | 220 | 0.00% |
 
-*\*Note: At this scale (8x8 multipliers), Vivado may implement logic in LUTs. For larger arrays, DSP slice mapping is enforced.*
+*\*Note: At this scale (8x8 multipliers), Vivado's cost model chose LUT implementation over DSP48 slices. The design includes `(* use_dsp = "yes" *)` attributes and follows DSP-optimized coding practices. Larger arrays or wider bit-widths would trigger DSP inference.*
 
 ### Timing Summary
 - **Target Frequency**: 100.00 MHz
@@ -77,9 +77,10 @@ python inference_benchmark.py
 ### Key Metrics:
 - **Numerical Parity**: Verified that the INT8 prediction matches the Float32 prediction for MNIST test samples.
 - **Simulation Latency**:
-    - **PL (Software Simulation)**: ~0.72 ms (Cycle-accurate logic emulation)
-    - **PS (Native Float32)**: ~0.06 ms
-- **Confidence Matrix**: Generates a 10x10 ASCII confusion matrix to visualize model performance.
+    - **PL (Software Simulation)**: ~0.9 ms (Cycle-accurate logic emulation via xsim)
+    - **PS (Native Float32)**: ~0.05 ms
+    - *Note: PL latency reflects Python simulation overhead, not actual FPGA performance*
+- **Confusion Matrix**: Generates a 10x10 ASCII confusion matrix to visualize model performance.
 
 ## Repository Structure
 - `top_level.v`: AXI4-Lite wrapper for the systolic array (SoC Integration).
